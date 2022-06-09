@@ -95,6 +95,34 @@ function movePaddle() {
   }
 }
 
+//Move Ball
+
+function moveBall() {
+  ball.x += ball.dx;
+  ball.y += ball.dy;
+
+  //wall detection(x)
+  if (ball.x + ball.size > canvas.width || ball.x - ball.size < 0) {
+    ball.dx *= -1;
+  }
+  //wall detection(y)
+  if (ball.y + ball.size > canvas.height || ball.y - ball.size < 0) {
+    ball.dy *= -1;
+  }
+  //paddle collision
+  if (ball.x + ball.size > paddle.x && ball.x + ball.size < paddle.x + paddle.width && ball.y + ball.size > paddle.y) {
+    ball.dy = -ball.speed
+  }
+  // brick collision
+  bricks.forEach(colum => {
+    colum.forEach(brick => {
+      if (ball.visible) {
+        // if (ball.x - ball.size > brick.x)
+      }
+    })
+  })
+}
+
 
 //Draw everything
 function draw() {
@@ -111,16 +139,15 @@ function drawScore() {
   ctx.fillText(`Score: ${score}`, canvas.width - 95, 30)
 }
 
-//call request animation frame
+//call request animation frame -- this changes the canvas every redraw
 function update() {
   movePaddle();
-  //draw
+  moveBall();
   draw();
-
   requestAnimationFrame(update)
 }
-
 update();
+
 
 // Keyboard event functions
 function keyDown(e) {
